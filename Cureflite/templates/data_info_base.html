@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% block board_title %}
+{% endblock %}
+
+
+<div class="row board">
+    <div class="col left-board row" id="left-board">
+        <div class="left-title">
+            <div class="left-search">
+              <input type="text" class="" placeholder="Search..." id="left-search">
+            </div>
+        </div>
+        <div class="left-content">
+            <div class="left-list">
+                {% block left_list %}
+
+                {% endblock %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col right-board"  id="right-board">
+        {% block right_content %}
+
+        {% endblock %}
+    </div>
+</div>
+<div class="corner-icon" id="left-list-icon">
+  <i class="bi bi-list-task"></i>
+</div>
+{% endblock %}
+

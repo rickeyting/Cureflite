@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block loadcss %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+<div id="apps">
+    <div class="apps-form justify-content-center row mt-5">
+        <div class="apps-item row">
+            <div class="apps-head">
+                <div class="app-icon text-center">
+                    <i class="bi bi-file-person"></i>
+                </div>
+                <div class="app-label text-center">
+                    <h6>個人資訊</h6>
+                </div>
+            </div>
+            <ul class="apps-content">
+                <li>個人資訊修改</li>
+                <li>設定新密碼(忘記密碼)</li>
+            </ul>
+        </div>
+        <div class="apps-item row">
+            <div class="apps-head">
+                <div class="app-icon text-center">
+                    <i class="bi bi-universal-access"></i>
+                </div>
+                <div class="app-label text-center">
+                    <h6>病症查詢</h6>
+                </div>
+            </div>
+            <ul class="apps-content">
+                <li>輸入病症獲取建議看診科別</li>
+                <li>圖表呈現</li>
+            </ul>
+        </div>
+        <div class="apps-item row">
+            <div class="apps-head">
+                <div class="app-icon text-center">
+                    <i class="bi bi-hospital"></i>
+                </div>
+                <div class="app-label text-center">
+                    <h6>醫院資訊</h6>
+                </div>
+            </div>
+            <ul class="apps-content">
+                <li>醫院基本資料</li>
+                <li>科別篩選</li>
+                <li>地圖顯示附近資訊</li>
+            </ul>
+        </div>
+        <div class="apps-item row">
+            <div class="apps-head">
+                <div class="app-icon text-center">
+                    <i class="bi bi-postcard-heart"></i>
+                </div>
+                <div class="app-label text-center">
+                    <h6>歷史紀錄</h6>
+                </div>
+            </div>
+            <ul class="apps-content">
+                <li>歷史查閱紀錄</li>
+                <li>回饋位置、性別用於看板</li>
+            </ul>
+        </div>
+        <div class="apps-item row">
+            <div class="apps-head">
+                <div class="app-icon text-center">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div class="app-label text-center">
+                    <h6>親朋好友</h6>
+                </div>
+            </div>
+            <ul class="apps-content">
+                <li>追蹤親友身體狀態</li>
+                <li>家族史資訊參考</li>
+            </ul>
+        </div>
+
+    </div>
+    管理者功能:
+    <div class="staff-content justify-content-center row mt-2">
+        <div class="apps-item row">
+            <div class="apps-head">
+                <div class="app-icon text-center">
+                    <i class="bi bi-person-check-fill"></i>
+                </div>
+                <div class="app-label text-center">
+                    <h6>權限設定</h6>
+                </div>
+            </div>
+            <ul class="apps-content">
+                <li>賦予編輯權限</li>
+            </ul>
+        </div>
+        <div class="apps-item row">
+            <div class="apps-head">
+                <div class="app-icon text-center">
+                    <i class="fa-solid fa-viruses"></i>
+                </div>
+                <div class="app-label text-center">
+                    <h6>疾病資料</h6>
+                </div>
+            </div>
+            <ul class="apps-content">
+                <li>新增、修改疾病資料</li>
+                <li>上傳資料(csv)</li>
+                <li>下載資料庫(csv)</li>
+                <li>病症群組化</li>
+                <li>生活&行為群組化</li>
+                <li>門診科別與疾病匹配</li>
+                <li>更動紀錄</li>
+            </ul>
+        </div>
+        <div class="apps-item row">
+            <div class="apps-head">
+                <div class="app-icon text-center">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+                <div class="app-label text-center">
+                    <h6>整體看板</h6>
+                </div>
+            </div>
+            <ul class="apps-content">
+                <li>總體查詢結果分析</li>
+                <li>病症查詢分布(年月周)</li>
+                <li>性別查詢分布(年月周)</li>
+                <li>地區查詢分布(年月周)</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

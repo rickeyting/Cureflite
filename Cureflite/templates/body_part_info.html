@@ -1,0 +1,96 @@
+{% extends 'data_info_base.html' %}
+
+{% load static %}
+{% block loadcss %}
+<link rel="stylesheet" href="{% static 'css/data_info_base.css' %}" crossorigin="anonymous">
+{% endblock %}
+{% block loadjs %}
+<script src="{% static 'js/data_info_base.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'js/body_part_info.js' %}" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block board_title %}
+<div class="row board-title">
+    <a href="/apps">Apps</a>
+    <a class="px-3">/</a>
+    <a href="/disease/disease-overview/">Overview</a>
+    <a class="px-3">/</a>
+    <a>身體部位</a>
+</div>
+{% endblock %}
+
+
+{% block left_list %}
+<ul>
+{% for body_part in body_parts %}
+    <li onclick="window.location.href='{% url 'body_part_info' body_part.id  %}'" {% if current_body_part.id == body_part.id %}style="background-color: #f2f2f2;"{% endif %}>
+        {{ body_part }}<br>
+    </li>
+{% endfor %}
+{% endblock %}
+
+
+
+{% block right_content %}
+<form method="post" action="{% url 'add_body_part' current_body_part.id %}">
+    {% csrf_token %}
+    <div class="">
+        <div class="option-name">
+            <a>身體部位:{{ add_body_part.chinese_name }}</a>
+            <button type="submit">
+                保存
+            </button>
+        </div>
+        <div class="right-content">
+            <div class="first-board">
+                <div class="remove-title">
+                    <a>內容: </a>
+                </div>
+                <div class="remove-content" id="remove-content">
+                    {% for symptom_group in symptom_groups %}
+                    {% if symptom_group in current_body_part.symptom_groups.all %}
+                    <input type="hidden" name="group" value="{{ symptom_group.id }}">
+                    <a symptom-group-id="{{symptom_group.id}}" name="symptom-groups">{{ symptom_group.chinese_name }}  <i class="bi bi-dash"></i></a>
+                    {% else %}
+                    <a symptom-group-id="{{symptom_group.id}}" name="symptom-groups" style="display:none;">{{ symptom_group.chinese_name }}  <i class="bi bi-dash"></i></a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="second-board">
+                <div class="add-title">
+                    <a>已匹配: </a>
+                </div>
+                <div class="add-content">
+                    {% for symptom_group in symptom_groups %}
+                    {% if symptom_group in grouped_symptom_groups %}
+                    {% if not symptom_group in current_body_part.symptom_groups.all %}
+                    <a symptom-group-id="{{symptom_group.id}}" name="symptom-groups">{{ symptom_group.chinese_name }}  <i class="bi bi-dash"></i></a>
+                    {% else %}
+                    <a symptom-group-id="{{symptom_group.id}}" name="symptom-groups" style="display:none;">{{ symptom_group.chinese_name }}  <i class="bi bi-dash"></i></a>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="third-board">
+                <div class="add-title">
+                    <a>未匹配: </a>
+                </div>
+                <div class="add-content">
+                    {% for symptom_group in symptom_groups %}
+                    {% if not symptom_group in grouped_symptom_groups %}
+                    {% if not symptom_group in current_body_part.symptom_groups.all %}
+                    <a symptom-group-id="{{symptom_group.id}}" name="symptom-groups">{{ symptom_group.chinese_name }}  <i class="bi bi-dash"></i></a>
+                    {% else %}
+                    <a symptom-group-id="{{symptom_group.id}}" name="symptom-groups" style="display:none;">{{ symptom_group.chinese_name }}  <i class="bi bi-dash"></i></a>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+

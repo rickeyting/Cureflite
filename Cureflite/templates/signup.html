@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block loadcss %}
+<link rel="stylesheet" href="{% static 'css/signup.css' %}" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="sign-up-form mt-5">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="my-4 px-0 row sign-up-name">
+                <i class="bi bi-emoji-wink"></i>
+            </div>
+            <div class="mb-3 px-0 row sign-up-item">
+                <div class="text-center px-1">
+                    <i class="bi bi-envelope-fill"></i>
+                </div>
+                <div class="">
+                    <input type="email" placeholder="輸入電子郵件" name="email" required>
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-name">
+                <div class="text-center pr-3">
+                    <input type="text" placeholder="輸入姓氏" name="last_name" style="width: 96px;">
+                </div>
+                <div class="text-center px-3">
+                    <input type="text" placeholder="輸入名字" name="first_name" style="width: 96px;">
+                </div>
+                <div class="text-center pl-3">
+                    <select name="gender">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-item">
+                <div class="text-center px-1">
+                    <i class="bi bi-pin-map-fill"></i>
+                </div>
+                <div class="text-center">
+                    <textarea type="text" placeholder="輸入地址" name="address" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-item">
+                <div class="text-center px-1">
+                    <i class="bi bi-telephone-fill"></i>
+                </div>
+                <div class="text-center">
+                    <input type="tel" placeholder="輸入電話號碼" name="phone_number">
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-item">
+                <div class="text-center px-1">
+                    <i class="bi bi-lock-fill"></i>
+                </div>
+                <div class="text-center">
+                    <input type="password" placeholder="密碼1(英文+數字)" name="password1" required>
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-item">
+                <div class="text-center px-1">
+                    <i class="bi bi-lock-fill"></i>
+                </div>
+                <div class="text-center">
+                    <input type="password" placeholder="密碼2(英文+數字)" name="password2" required>
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-name" style="width: 300px;">
+                <div class="col-12">
+                    <input type="checkbox" name="staff_status" id="staffStatusCheckbox" data-target="#jobTitleInput">是否從事醫療相關
+                </div>
+                <div class="col-12 text-center">
+                    <p>(確認資料無誤後，開放修正功能)</p>
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-item" id="jobTitleInput">
+                <div class="text-center px-1">
+                    <i class="bi bi-briefcase-fill"></i>
+                </div>
+                <div class="text-center">
+                    <input type="text" placeholder="輸入職業" name="job_title">
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-name">
+                <button type="submit" class="btn btn-light" style="width: 300px;" onclick="window.location.href='{% url 'signup' %}'">註冊</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{% static 'js/signup.js' %}" crossorigin="anonymous"></script>
+{% endblock %}

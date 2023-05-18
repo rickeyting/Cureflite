@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block loadcss %}
+<link rel="stylesheet" href="{% static 'css/apps.css' %}" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+<div id="apps">
+    <div class="apps-content justify-content-center row mt-5">
+        <div class="apps-item">
+            <div class="app-icon text-center">
+                <i class="bi bi-universal-access"></i>
+            </div>
+            <div class="app-label text-center">
+                <h6>病症查詢</h6>
+            </div>
+        </div>
+        {% if request.user.is_authenticated %}
+        <div class="apps-item" onclick="window.location.href='{% url 'personal_info' %}'">
+            <div class="app-icon text-center">
+                <i class="bi bi-file-person"></i>
+            </div>
+            <div class="app-label text-center">
+                <h6>個人資訊</h6>
+            </div>
+        </div>
+        {% endif %}
+        <div class="apps-item">
+            <div class="app-icon text-center">
+                <i class="bi bi-hospital"></i>
+            </div>
+            <div class="app-label text-center">
+                <h6>醫院資訊</h6>
+            </div>
+        </div>
+        <div class="apps-item">
+            <div class="app-icon text-center">
+                <i class="bi bi-postcard-heart"></i>
+            </div>
+            <div class="app-label text-center">
+                <h6>歷史紀錄</h6>
+            </div>
+        </div>
+        <div class="apps-item">
+            <div class="app-icon text-center">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <div class="app-label text-center">
+                <h6>親朋好友</h6>
+            </div>
+        </div>
+        <div class="apps-item">
+            <div class="app-icon text-center">
+                <i class="bi bi-heart-pulse"></i>
+            </div>
+            <div class="app-label text-center">
+                <h6>------</h6>
+            </div>
+        </div>
+        <div class="apps-item">
+            <div class="app-icon text-center">
+                <i class="bi bi-clipboard-check"></i>
+            </div>
+            <div class="app-label text-center">
+                <h6>------</h6>
+            </div>
+        </div>
+    </div>
+    <div class="staff-content justify-content-center row mt-2">
+        <div class="apps-item" onclick="window.location.href='{% url 'access_control' %}'">
+            <div class="app-icon text-center">
+                <i class="bi bi-person-check-fill"></i>
+            </div>
+            <div class="app-label text-center">
+                <h6>權限設定</h6>
+            </div>
+        </div>
+        <div class="apps-item" onclick="window.location.href='{% url 'disease_overview' %}'">
+            <div class="app-icon text-center">
+                <i class="fa-solid fa-viruses"></i>
+            </div>
+            <div class="app-label text-center">
+                <h6>疾病資料</h6>
+            </div>
+        </div>
+        <div class="apps-item">
+            <div class="app-icon text-center">
+                <i class="bi bi-graph-up"></i>
+            </div>
+            <div class="app-label text-center">
+                <h6>整體看板</h6>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="{% static 'js/apps.js' %}" crossorigin="anonymous"></script>
+{% endblock %}

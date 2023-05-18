@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block loadcss %}
+<link rel="stylesheet" href="{% static 'css/personal_info.css' %}" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-3">
+    <div class="sign-up-form col-lg-4 board m-2">
+        <form method="POST" action="{% url 'personal_info_edit' %}">
+            {% csrf_token %}
+            <div class="my-4 px-0 row justify-content-center">
+                <i class="bi bi-file-person"></i>
+            </div>
+            <div class="mb-3 px-0 row sign-up-item">
+                <div class="text-center px-1">
+                    <i class="bi bi-envelope-fill"></i>
+                </div>
+                <div class="">
+                    <p style="width: 264px;">{{ request.user.email }}</p>
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-item">
+                <div class="text-center pr-3">
+                    <input type="text" value="{{ request.user.last_name }}" name="last_name" style="width: 96px;">
+                </div>
+                <div class="text-center px-3">
+                    <input type="text" value="{{ request.user.first_name }}" name="first_name" style="width: 96px;">
+                </div>
+                <div class="text-center pl-3">
+                    <select name="gender">
+                        {% if request.user.gender.is_male %}
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                        {% else %}
+                        <option value="女">女</option>
+                        <option value="男">男</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-item">
+                <div class="text-center px-1">
+                    <i class="bi bi-pin-map-fill"></i>
+                </div>
+                <div class="text-center">
+                    <textarea type="text" name="address" rows="2">{{ request.user.address }}</textarea>
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-item">
+                <div class="text-center px-1">
+                    <i class="bi bi-telephone-fill"></i>
+                </div>
+                <div class="text-center">
+                    <input type="tel" value="{{ request.user.phone_number }}" name="phone_number">
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-item">
+                <div class="text-center px-1">
+                    <i class="bi bi-lock-fill"></i>
+                </div>
+                <div class="text-left">
+                    <p type="password" name="password1" style="width: 242px;">********</p>
+                </div>
+                <div class="text-center px-1 pencil" onclick="openChangePassword()">
+                    <i class="bi bi-pencil"></i>
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-item">
+                <div class="text-center px-1">
+                    <i class="bi bi-briefcase-fill"></i>
+                </div>
+                <div class="text-center">
+                    <input type="text" value="{{ request.user.job_title }}" name="job_title">
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-item d-flex align-items-center">
+                {% if request.user.is_staff %}
+                <div class="text-center px-1">
+                    <i class="green-circle"></i>
+                </div>
+                {% else %}
+                <div class="text-center px-1">
+                    <i class="red-circle"></i>
+                </div>
+                {% endif %}
+                <div class="text-left px-1">
+                   <p style="width: 264px;">修改權限</p>
+                </div>
+            </div>
+            <div class="mb-3 row justify-content-center">
+                <button type="submit" class="btn btn-outline-secondary" style="width: 300px;">修改</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-6 board m-2">
+        <div class="history">查詢紀錄</div>
+        <div class=""></div>
+    </div>
+</div>
+<!-- change password window -->
+<div id="ChangePasswordPopup" class="modal">
+  <div class="modal-content">
+    <form method="POST" action="{% url 'change_password' %}">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col text-center">
+          <i class="bi bi-lock"></i>
+        </div>
+      </div>
+      <div class="row my-2 py-1 mbody-insert d-flex">
+        <div class="text-right pr-3">
+          <i class="bi bi-lock-fill"></i>
+        </div>
+        <div class="">
+          <input type="password" placeholder="當前密碼" name="old_password" required>
+        </div>
+      </div>
+      <div class="row my-2 py-1 mbody-insert d-flex">
+        <div class="text-right pr-3">
+          <i class="bi bi-lock-fill"></i>
+        </div>
+        <div class="">
+          <input type="password" placeholder="新密碼1" name="new_password1" required>
+        </div>
+      </div>
+      <div class="row my-2 py-1 mbody-insert d-flex">
+        <div class="text-right pr-3">
+          <i class="bi bi-lock-fill"></i>
+        </div>
+        <div class="">
+          <input type="password" placeholder="新密碼2" name="new_password2" required>
+        </div>
+      </div>
+      <div class="row py-1">
+        <div class="col text-center">
+          <button class="col-12 btn btn-secondary" type="submit">確認</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="{% static 'js/personal_info.js' %}" crossorigin="anonymous"></script>
+{% endblock %}

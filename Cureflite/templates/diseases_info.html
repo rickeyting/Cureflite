@@ -1,0 +1,148 @@
+{% extends 'data_info_base.html' %}
+
+{% load static %}
+{% block loadcss %}
+<link rel="stylesheet" href="{% static 'css/data_info_base.css' %}" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'css/diseases_info.css' %}" crossorigin="anonymous">
+{% endblock %}
+{% block loadjs %}
+<script src="{% static 'js/data_info_base.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'js/diseases_info.js' %}" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block board_title %}
+<div class="row board-title">
+    <a href="/apps">Apps</a>
+    <a class="px-3">/</a>
+    <a href="/disease/disease-overview/">Overview</a>
+    <a class="px-3">/</a>
+    {% if current_disease %}
+    <a>current_disease</a>
+    {% else %}
+    <a>新增疾病</a>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+{% block left_list %}
+<ul>
+    {% if current_disease %}
+    {% for disease in diseases %}
+    <li onclick="window.location.href='{% url 'disease_info' disease.id  %}'" {% if current_disease.id == disease.id %}style="background-color: #f2f2f2;"{% endif %}>
+        {{ disease }}
+    </li>
+    {% endfor %}
+    {% else %}
+    {% for disease in diseases %}
+    <li onclick="window.location.href='{% url 'disease_info' disease.id  %}'">
+        {{ disease }}
+    </li>
+    {% endfor %}
+    {% endif %}
+{% endblock %}
+
+
+
+{% block right_content %}
+{% if current_disease %}
+<form method="post" action="{% url 'add_disease' current_disease.id %}">
+{% else %}
+<form method="post" action="{% url 'add_diseases' %}">
+{% endif %}
+    {% csrf_token %}
+    <div class="">
+        <div class="option-name">
+            {% if current_disease %}
+            <a>疾病: {{ current_disease }}<i class="bi bi-trash3" onclick="window.location.href='{% url 'delete_disease' current_disease.id  %}'"></i></a>
+            <input type="hidden" name="chinese_name" value="{{ current_disease }}">
+            {% else %}
+            <a>疾病: <input type="text" name="chinese_name" required></a>
+            {% endif %}
+            <button type="submit">保存</button>
+        </div>
+        <div class="right-content">
+            <div class="first-board">
+                <div class="ages disease_sub">
+                    <div>
+                    男性年紀:
+                    {% if current_disease %}
+                    <input value={{current_disease.male_age_min}} type="number" name="male_age_min" required>-<input class="i-number" value={{current_disease.male_age_max}} type="number" name="male_age_max" required></td>
+                    {% else %}
+                    <input value=0 type="number" name="male_age_min" required>-<input class="i-number" value=999 type="number" name="male_age_max" required></td>
+                    {% endif %}
+                    </div>
+                    <div>
+                    女性年紀:
+                    {% if current_disease %}
+                    <input value={{current_disease.female_age_min}} type="number"name="female_age_min" required>-<input class="i-number" value={{current_disease.female_age_max}} type="number" name="female_age_max" required>
+                    {% else %}
+                    <input value=0 type="number"name="female_age_min" required>-<input class="i-number" value=999 type="number" name="female_age_max" required>
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="family_history disease_sub">
+                    家族史:
+                    <input type="checkbox" name="family_history" {% if current_disease.family_history %}checked{% endif %}>
+                </div>
+            </div>
+            <div class="second-board">
+                <div class="remove-title">
+                    <a>科別:</a>
+                </div>
+                <div class="clinics remove-content">
+                    <div class="selected-option">
+                    {% for clinic in current_disease.clinic.all %}
+                    <a data-clinic-id="{{clinic.id}}" data-clinic-name="{{clinic}}">{{ clinic }} <i class="bi bi-dash"></i></a>
+                    <input type="hidden" name="clinic" value="{{ clinic }}">
+                    {% endfor %}
+                    </div>
+                    <div class="clinic-option">
+                        <select id="clinic-option">
+                            <option>選擇新增</option>
+                            {% for clinic_option in clinics %}
+                            {% if not clinic_option in current_disease.clinic.all %}
+                                <option data-clinic-id="{{clinic_option.id}}" data-clinic-name="{{clinic_option}}">{{clinic_option}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="second-board">
+                <div class="remove-title">
+                    <a>病症:</a>
+                </div>
+                <div class="symptoms remove-content">
+                    <div class="selected-symptoms">
+                        {% for symptom in current_disease.symptoms.all %}
+                        <a data-symptom-name="{{symptom}}" activated="on">{{ symptom }}<i class="bi bi-dash"></i></a>
+                        <input type="hidden" name="symptoms" value="{{ symptom }}">
+                        {% endfor %}
+                    </div>
+                    <div class="add-symptom-input">
+                      <input type="text" id="symptom-input" placeholder="新增病症">
+                    </div>
+                </div>
+            </div>
+            <div class="second-board">
+                <div class="remove-title">
+                    <a>生活&行為:</a>
+                </div>
+                <div class="bad-habits remove-content">
+                    <div class="selected-bad-habits">
+                        {% for bad_habit in current_disease.bad_habits.all %}
+                        <a data-bad_habit-name="{{bad_habit}}" activated="on">{{ bad_habit }}<i class="bi bi-dash"></i></a>
+                        <input type="hidden" name="bad_habits" value="{{ bad_habit }}">
+                        {% endfor %}
+                    </div>
+                    <div class="add-bad_habit-input">
+                      <input type="text" id="bad_habit-input" placeholder="新增生活&行為">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+

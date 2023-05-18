@@ -1,0 +1,83 @@
+.sign-up-item {
+    width: 300px;
+    align-items: center;
+    margin: auto;
+    justify-content: center;
+    border-bottom: 1px solid grey;
+}
+
+.sign-up-item input, .sign-up-item textarea {
+    width: 264px;
+    background-color: none;
+    border: none;
+    outline: none;
+}
+
+
+.sign-up-item p {
+    margin: 0;
+}
+
+.bi-file-person {
+    font-size: 64px;
+}
+
+.board {
+    border-radius: 10px;
+}
+
+.green-circle {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: green;
+    margin-left: 5px; /* Adjust this value to add spacing between the text and the circle */
+}
+
+.red-circle {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: red;
+    margin-left: 5px; /* Adjust this value to add spacing between the text and the circle */
+}
+
+@media (max-width: 992px) {
+  .board {
+    box-shadow: none; /* Remove the box shadow */
+    border-bottom: 1px solid grey; /* Add a bottom line */
+    border-top: 1px solid grey; /* Add a bottom line */
+  }
+}
+
+/* Styles for larger screens */
+@media (min-width: 992px) {
+  .board {
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+    border-bottom: none; /* Add a bottom line */
+    border-top: none; /* Add a bottom line */
+  }
+}
+
+.pencil:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+#ChangePasswordPopup {
+    display: none; /* Hide the modal by default */
+    position: fixed; /* Stay in place */
+    z-index: 999; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black with opacity */
+}
+
+#ChangePasswordPopup .bi-lock {
+    font-size: 96px;
+}

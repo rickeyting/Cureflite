@@ -1,0 +1,45 @@
+.app-icon {
+    font-size: 36px;
+    margin-bottom: 2px;
+}
+
+.apps-item {
+    display: flex;
+    flex-direction: column;
+    width: 76px;
+    height: 76px;
+    align-items: center;
+    justify-content: center;
+    margin: 16px 16px;
+}
+
+.apps-item:hover {
+    background-color: #D3D3D3;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.apps-item h6 {
+    margin-bottom: 0;
+}
+
+
+.staff-content {
+    border-top: 1px solid grey;
+}
+
+#apps .bi-universal-access {
+    color: #FFA07A;
+}
+
+#apps .bi-file-person {
+    color: #9400D3;
+}
+
+#apps .bi-person-check-fill {
+    color: #0000FF;
+}
+
+#apps .fa-viruses {
+    color: #006400;
+}

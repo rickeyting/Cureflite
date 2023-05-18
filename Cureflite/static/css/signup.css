@@ -1,0 +1,63 @@
+.sign-up-form {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    background-color: #9370DB;
+}
+
+.sign-up-item input, .sign-up-item textarea {
+    width: 264px;
+    background-color: none;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+}
+
+.sign-up-item {
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: white;
+    align-items: center;
+    margin: auto;
+    justify-content: center;
+}
+
+.sign-up-name {
+    align-items: center;
+    margin: auto;
+    justify-content: center;
+}
+
+.sign-up-name input {
+    border: none;
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.bi-emoji-wink {
+    font-size: 96px;
+}
+
+#jobTitleInput {
+    display: none;
+}
+
+.sign-up-name p {
+    font-size: 11px;
+}
+
+@media (max-width: 464px) {
+  .sign-up-form {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+/* Styles for larger screens */
+@media (min-width: 464px) {
+  .sign-up-form {
+    max-width: 364px;
+    width: 364px;
+  }
+}

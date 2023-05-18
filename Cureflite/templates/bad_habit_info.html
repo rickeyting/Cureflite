@@ -1,0 +1,120 @@
+{% extends 'data_info_base.html' %}
+
+{% load static %}
+{% block loadcss %}
+<link rel="stylesheet" href="{% static 'css/data_info_base.css' %}" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'css/symptom_info.css' %}" crossorigin="anonymous">
+{% endblock %}
+{% block loadjs %}
+<script src="{% static 'js/data_info_base.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'js/symptom_info.js' %}" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block board_title %}
+<div class="row board-title">
+    <a href="/apps">Apps</a>
+    <a class="px-3">/</a>
+    <a href="/disease/disease-overview/">Overview</a>
+    <a class="px-3">/</a>
+    <a>bad_habit</a>
+</div>
+{% endblock %}
+
+
+{% block left_list %}
+<ul>
+{% for bad_habit_group in bad_habit_groups %}
+    <li onclick="window.location.href='{% url 'bad_habit_info' bad_habit_group.id  %}'" {% if current_bad_habit_group.id == bad_habit_group.id %}style="background-color: #f2f2f2;"{% endif %}>
+        {{ bad_habit_group }}<br>
+        <small>
+            [
+            {% for bad_habit in bad_habit_group.bad_habits.all %}
+                {{ bad_habit }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+            ]
+        </small>
+    </li>
+{% endfor %}
+{% endblock %}
+
+
+
+{% block right_content %}
+<form method="post" action="{% url 'add_bad_habit' current_bad_habit_group.id %}">
+    {% csrf_token %}
+    <div class="">
+        <div class="option-name">
+            <a>群組名稱:
+            <select name="chinese_name" id="chinese_name">
+                <option value="{{ current_bad_habit_group.chinese_name }}">{{ current_bad_habit_group.chinese_name }}</option>
+                {% for name in current_bad_habit_group.bad_habits.all %}
+                {% if name.chinese_name != current_bad_habit_group.chinese_name %}
+                    <option name="chinese_name" value="{{name.chinese_name}}">{{name.chinese_name}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            </a>
+
+            <button type="submit">
+                保存
+            </button>
+        </div>
+        <div class="right-content">
+            <div class="first-board">
+                <div class="remove-title">
+                    <a>內容: </a>
+                </div>
+                <div class="remove-content" id="remove-content">
+                    {% for bad_habit_group in bad_habit_groups %}
+                    {% for bad_habit in bad_habit_group.bad_habits.all %}
+                    {% if bad_habit_group == current_bad_habit_group %}
+                    <input type="hidden" name="group" value="{{ bad_habit.id }}">
+                    <a class="remove-{{bad_habit.id}}-{{bad_habit.chinese_name}}" name="clinics">{{ bad_habit.chinese_name }}  <i class="bi bi-dash"></i></a>
+                    {% else %}
+                    <a class="remove-{{bad_habit.id}}-{{bad_habit.chinese_name}}" style="display:none;">{{ bad_habit.chinese_name }}  <i class="bi bi-dash"></i></a>
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="second-board">
+                <div class="add-title">
+                    <a>其他群組: </a>
+                </div>
+                <div class="add-content">
+                    {% for bad_habit_group in bad_habit_groups %}
+                    {% if bad_habit_group.bad_habits.count > 1 and bad_habit_group != current_bad_habit_group %}
+                    {% for bad_habit in bad_habit_group.bad_habits.all %}
+                    {% if bad_habit_group != current_bad_habit_group %}
+                    <a class="add-{{bad_habit.id}}-{{bad_habit.chinese_name}}">{{ bad_habit.chinese_name }} <i class="bi bi-plus"></i></a>
+                    {% else %}
+                    <a class="add-{{bad_habit.id}}-{{bad_habit.chinese_name}}" style="display:none;">{{ bad_habit.chinese_name }} <i class="bi bi-plus"></i></a>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="third-board">
+                <div class="add-title">
+                    <a>獨立個體: </a>
+                </div>
+                <div class="add-content">
+                    {% for bad_habit_group in bad_habit_groups %}
+                    {% if bad_habit_group.bad_habits.count == 1 or bad_habit_group == current_bad_habit_group %}
+                    {% for bad_habit in bad_habit_group.bad_habits.all %}
+                    {% if bad_habit_group != current_bad_habit_group %}
+                    <a class="add-{{bad_habit.id}}-{{bad_habit.chinese_name}}">{{ bad_habit.chinese_name }} <i class="bi bi-plus"></i></a>
+                    {% else %}
+                    <a class="add-{{bad_habit.id}}-{{bad_habit.chinese_name}}" style="display:none;">{{ bad_habit.chinese_name }} <i class="bi bi-plus"></i></a>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+

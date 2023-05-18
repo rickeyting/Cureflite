@@ -1,0 +1,79 @@
+{% extends 'data_info_base.html' %}
+
+{% load static %}
+{% block loadcss %}
+<link rel="stylesheet" href="{% static 'css/data_info_base.css' %}" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'css/clinic_info.css' %}" crossorigin="anonymous">
+{% endblock %}
+{% block loadjs %}
+<script src="{% static 'js/data_info_base.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'js/clinic_info.js' %}" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block board_title %}
+<div class="row board-title">
+    <a href="/apps">Apps</a>
+    <a class="px-3">/</a>
+    <a href="/disease/disease-overview/">Overview</a>
+    <a class="px-3">/</a>
+    <a>Clinic</a>
+</div>
+{% endblock %}
+
+
+{% block left_list %}
+<ul>
+{% for clinic in clinics %}
+    <li onclick="window.location.href='{% url 'clinic_info' clinic.id  %}'" {% if current_clinic.id == clinic.id %}style="background-color: #f2f2f2;"{% endif %}>
+        {{ clinic }}
+    </li>
+{% endfor %}
+{% endblock %}
+
+
+
+{% block right_content %}
+<form method="post" action="{% url 'add_clinic' current_clinic.id %}">
+    {% csrf_token %}
+    <div class="">
+        <div class="option-name">
+            <a>科別: {{ current_clinic }}</a>
+            <button type="submit">
+                        保存
+                    </button>
+        </div>
+        <div class="right-content">
+            <div class="first-board">
+                <div class="remove-title">
+                    <a>已包含疾病: </a>
+                </div>
+                <div class="remove-content" id="remove-content">
+                    {% for disease in diseases %}
+                        {% if current_clinic in disease.clinic.all %}
+                        <input type="hidden" name="diseases" value="{{ disease.id }}">
+                        <a class="remove-{{disease.id}}" name="clinics">{{ disease.chinese_name }}  <i class="bi bi-dash"></i></a>
+                        {% else %}
+                        <a class="remove-{{disease.id}}" style="display:none;">{{ disease.chinese_name }}  <i class="bi bi-dash"></i></a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="second-board">
+                <div class="add-title">
+                    <a>未包含疾病: </a>
+                </div>
+                <div class="add-content">
+                    {% for disease in diseases %}
+                        {% if current_clinic in disease.clinic.all %}
+                        <a class="add-{{disease.id}}" style="display:none;">{{ disease.chinese_name }} <i class="bi bi-plus"></i></a>
+                        {% else %}
+                        <a class="add-{{disease.id}}">{{ disease.chinese_name }} <i class="bi bi-plus"></i></a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
