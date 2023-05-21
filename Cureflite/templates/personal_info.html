@@ -8,10 +8,18 @@
 {% block content %}
 <div class="row justify-content-center mt-3">
     <div class="sign-up-form col-lg-4 board m-2">
-        <form method="POST" action="{% url 'personal_info_edit' %}">
+        <form method="POST" action="{% url 'personal_info_edit' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="my-4 px-0 row justify-content-center">
-                <i class="bi bi-file-person"></i>
+                <div class="photo-screen">
+                    <div class="avatar-container">
+                        <img id="photo-preview" src="{% if request.user.avatar %}{{ MEDIA_URL }}{{request.user.avatar.url}}{% else %}#{% endif %}">
+                    </div>
+                    <label for="photo-upload">
+                        <input type="file" id="photo-upload" name="avatar" accept="image/*" style="display: none;">
+                        <i class="bi bi-person-bounding-box label-right-bottom"></i>
+                    </label>
+                </div>
             </div>
             <div class="mb-3 px-0 row sign-up-item">
                 <div class="text-center px-1">
@@ -23,21 +31,26 @@
             </div>
             <div class="mb-3 row sign-up-item">
                 <div class="text-center pr-3">
-                    <input type="text" value="{{ request.user.last_name }}" name="last_name" style="width: 96px;">
+                    <input type="text" placeholder="姓" value="{{ request.user.last_name }}" name="last_name" style="width: 96px;">
                 </div>
                 <div class="text-center px-3">
-                    <input type="text" value="{{ request.user.first_name }}" name="first_name" style="width: 96px;">
+                    <input type="text" placeholder="名" value="{{ request.user.first_name }}" name="first_name" style="width: 96px;">
                 </div>
                 <div class="text-center pl-3">
                     <select name="gender">
-                        {% if request.user.gender.is_male %}
-                        <option value="男">男</option>
-                        <option value="女">女</option>
+                        {% if request.user.gender == 'M' %}
+                        <option value="M" selected>男</option>
+                        <option value="F">女</option>
                         {% else %}
-                        <option value="女">女</option>
-                        <option value="男">男</option>
+                        <option value="F" selected>女</option>
+                        <option value="M">男</option>
                         {% endif %}
                     </select>
+                </div>
+            </div>
+            <div class="mb-3 row sign-up-item px-3">
+                <div>
+                    <input type="date" placeholder="選擇出生日期" name="birth" {% if request.user.birth %}value="{{ request.user.birth|date:'Y-m-d' }}" {% endif %}>
                 </div>
             </div>
             <div class="mb-3 row sign-up-item">
@@ -141,6 +154,7 @@
     </form>
   </div>
 </div>
+
 
 <script src="{% static 'js/personal_info.js' %}" crossorigin="anonymous"></script>
 {% endblock %}

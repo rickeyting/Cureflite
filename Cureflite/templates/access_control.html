@@ -19,10 +19,18 @@
         {% for user in users %}
         <div class="user-item col-md-auto m-2{% if user.staff_status %} staff{% endif %}">
             <div class="user-content row my-3">
-                <i class="fa-solid fa-user-doctor"></i>
+                <div class="avatar-container">
+                    {% if user.avatar %}
+                    <img id="photo-preview" src="{{ MEDIA_URL }}{{user.avatar.url}}">
+                    {% else %}
+                    <div class="last_name">
+                        <a>{{user.last_name}}</a>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
             <div class="user-content row">
-                <h4><b>{{ user.full_name }}</b></h4>
+                <h4><b>{{ user.get_full_name }}</b></h4>
             </div>
             <div class="user-content row">
                 <h6 class="user-mail">{{ user.email }}</h6>
@@ -31,7 +39,7 @@
                 <h4><b>{{ user.job_title }}</b></h4>
             </div>
             <div class="user-gender row">
-                {% if user.gender == 1 %}
+                {% if user.gender == 'M' %}
                 <i class="bi bi-gender-male" style="background-color: #7FFFD4;"></i>
                 {% else %}
                 <i class="bi bi-gender-female" style="background-color: #FFB6C1;"></i>

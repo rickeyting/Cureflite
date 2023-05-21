@@ -23,4 +23,5 @@ urlpatterns = [
     path('disease-overview/body-part-info/', views.body_part_info, name='body_parts_info'),
     path('disease-overview/body-part-info/<int:body_part_id>', views.body_part_info, name='body_part_info'),
     path('disease-overview/body-part-info/add-body-part/<int:body_part_id>', views.add_body_part, name='add_body_part'),
+    path('disease-overview/disease-history-info/', views.disease_history_info, name='disease_history_info'),
     ]

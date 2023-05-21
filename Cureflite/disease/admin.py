@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import SearchHistory, Disease, BadHabits, Symptoms, Clinic, DiseaseHistory, BadHabitsGroup, SymptomsGroup, BodyParts
+from .models import Disease, BadHabits, Symptoms, Clinic, DiseaseHistory, BadHabitsGroup, SymptomsGroup, BodyParts
 
 # Register your models here.
-admin.site.register(SearchHistory)
 admin.site.register(Disease)
 admin.site.register(BadHabits)
 admin.site.register(Symptoms)

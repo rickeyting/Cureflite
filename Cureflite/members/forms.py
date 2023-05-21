@@ -1,9 +1,11 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
-from .models import Gender
+from django.forms import ClearableFileInput
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+
+from .models import GENDER_CHOICES
 
 
 class ChangePasswordForm(PasswordChangeForm):
@@ -21,11 +23,14 @@ class SignUpForm(UserCreationForm):
     staff_status = forms.BooleanField(required=False)
     phone_number = forms.CharField(max_length=20, required=False)
     job_title = forms.CharField(max_length=50, required=False)
+    birth = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    gender = forms.ChoiceField(choices=GENDER_CHOICES, required=False)
+    avatar = forms.ImageField(required=False, widget=ClearableFileInput(attrs={'multiple': False}))
 
     class Meta:
         model = get_user_model()
         fields = ['email', 'password1', 'password2', 'first_name', 'last_name',
-                  'address', 'staff_status', 'phone_number', 'job_title']
+                  'address', 'staff_status', 'phone_number', 'job_title', 'birth', 'gender', 'avatar']
 
 
 class InfoEdit(forms.Form):
@@ -34,6 +39,9 @@ class InfoEdit(forms.Form):
     address = forms.CharField(max_length=100, required=False)
     phone_number = forms.CharField(max_length=20, required=False)
     job_title = forms.CharField(max_length=50, required=False)
+    birth = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    gender = forms.ChoiceField(choices=GENDER_CHOICES, required=False)
+    avatar = forms.ImageField(required=False, widget=ClearableFileInput(attrs={'multiple': False}))
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
@@ -51,6 +59,9 @@ class InfoEdit(forms.Form):
         self.user.address = self.cleaned_data.get('address')
         self.user.phone_number = self.cleaned_data.get('phone_number')
         self.user.job_title = self.cleaned_data.get('job_title')
+        self.user.birth = self.cleaned_data.get('birth')
+        self.user.gender = self.cleaned_data.get('gender')
+        self.user.avatar = self.cleaned_data.get('avatar')
         self.user.save()
 
 

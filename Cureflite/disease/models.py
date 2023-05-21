@@ -80,6 +80,7 @@ class SymptomsGroup(models.Model):
         if self.symptoms.count() == 0:
             self.delete()
 
+
 class BadHabits(models.Model):
     chinese_name = models.CharField(max_length=100, unique=True)
     english_name = models.CharField(max_length=100)
@@ -320,12 +321,3 @@ class BodyParts(models.Model):
 
         self.save()
 
-
-class SearchHistory(models.Model):
-    symptoms = models.ForeignKey(Symptoms, on_delete=models.PROTECT)
-    bad_habits = models.ForeignKey(BadHabits, on_delete=models.PROTECT)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Search History {self.pk}"

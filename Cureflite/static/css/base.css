@@ -114,7 +114,3 @@
 .spinner-overlay.hide {
   display: none;
 }
-
-body {
-    width: calc(100% - 15px)
-}

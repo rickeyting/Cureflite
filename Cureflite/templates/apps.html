@@ -8,7 +8,7 @@
 {% block content %}
 <div id="apps">
     <div class="apps-content justify-content-center row mt-5">
-        <div class="apps-item">
+        <div class="apps-item" onclick="window.location.href='{% url 'status_check' %}'">
             <div class="app-icon text-center">
                 <i class="bi bi-universal-access"></i>
             </div>
@@ -36,6 +36,14 @@
         </div>
         <div class="apps-item">
             <div class="app-icon text-center">
+                <i class="bi bi-heart-pulse"></i>
+            </div>
+            <div class="app-label text-center">
+                <h6>體檢建議</h6>
+            </div>
+        </div>
+        <div class="apps-item">
+            <div class="app-icon text-center">
                 <i class="bi bi-postcard-heart"></i>
             </div>
             <div class="app-label text-center">
@@ -48,14 +56,6 @@
             </div>
             <div class="app-label text-center">
                 <h6>親朋好友</h6>
-            </div>
-        </div>
-        <div class="apps-item">
-            <div class="app-icon text-center">
-                <i class="bi bi-heart-pulse"></i>
-            </div>
-            <div class="app-label text-center">
-                <h6>------</h6>
             </div>
         </div>
         <div class="apps-item">

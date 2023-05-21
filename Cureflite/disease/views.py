@@ -3,6 +3,7 @@ import io
 
 from django.shortcuts import render, redirect
 from .models import Disease, Symptoms, BadHabits, Clinic, DiseaseHistory, SymptomsGroup, BadHabitsGroup, BodyParts
+from status_check.models import UnknownSymptoms, UnknownHabit
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
@@ -143,6 +144,8 @@ def disease_overview(request, disease_id=None):
     bad_habits = BadHabits.objects.order_by('-created_date')
     disease_history = DiseaseHistory.objects.order_by('-timestamp')[:3]
     body_parts = BodyParts.objects.annotate(symptom_group_count=Count('symptom_groups'))
+    unknown_symptoms = UnknownSymptoms.objects.count()
+    unknown_habits = UnknownHabit.objects.count()
 
     disease_count = diseases.count()
     symptom_count = symptoms.count()
@@ -152,7 +155,7 @@ def disease_overview(request, disease_id=None):
     disease_histories = []
     for i in disease_history:
         history_dic = i.get_changes_dict()
-        disease_histories.append(history_dic)
+        disease_histories.append([history_dic, i])
     return render(request, 'disease_overview.html', {
         'diseases': diseases,
         'history_content': disease_histories,
@@ -161,7 +164,19 @@ def disease_overview(request, disease_id=None):
         'bad_habit_count': bad_habit_count,
         'clinics_count': clinics_count,
         'body_parts': body_parts,
+        'unknown_symptoms': unknown_symptoms,
+        'unknown_habits': unknown_habits,
     })
+
+
+@user_passes_test(lambda u: u.is_staff or u.is_superuser)
+def disease_history_info(request):
+    disease_history = DiseaseHistory.objects.order_by('-timestamp')
+    disease_histories = []
+    for i in disease_history:
+        history_dic = i.get_changes_dict()
+        disease_histories.append([history_dic, i])
+    return render(request, 'disease_history_info.html', {'history_content': disease_histories})
 
 
 @user_passes_test(lambda u: u.is_staff or u.is_superuser)

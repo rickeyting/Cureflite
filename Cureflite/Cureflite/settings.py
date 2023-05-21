@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'web',
     'members',
     'disease',
+    'status_check',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -135,11 +136,11 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'upload/')
 MEDIA_URL = '/upload/'
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # Default primary key field type

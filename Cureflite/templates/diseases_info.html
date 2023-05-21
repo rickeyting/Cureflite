@@ -59,7 +59,11 @@
             {% else %}
             <a>疾病: <input type="text" name="chinese_name" required></a>
             {% endif %}
-            <button type="submit">保存</button>
+            <div class="multi-button" >
+                <a class="add-button" href="{% url 'diseases_info' %}">新增</a>
+                <button type="submit">保存</button>
+            </div>
+
         </div>
         <div class="right-content">
             <div class="first-board">

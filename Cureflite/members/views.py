@@ -1,5 +1,4 @@
 from .forms import SignUpForm, InfoEdit, PasswordChangeForm
-from .models import Gender
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views import View
@@ -36,7 +35,7 @@ class PersonalInfo(View):
 
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            form = self.form_class(request.POST, user=request.user)
+            form = self.form_class(request.POST, request.FILES, user=request.user)
             if form.is_valid():
                 form.save()
                 messages.success(request, '資料已更新')
@@ -94,7 +93,6 @@ class MyPasswordResetView(FormView):
         new_password = generate_random_password()  # Change the length to fit your needs
         user.set_password(new_password)
         user.save()
-        print(new_password)
         # Send the new password to the user's email address
         try:
             # Set up the SMTP connection using TLS
@@ -131,19 +129,10 @@ class SignUpFunction(View):
         return render(request, self.template_name, {})
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
-            gender_value = request.POST.get('gender')
-
-            # Retrieve the corresponding Gender instance based on the selected value
-            if gender_value == '男':
-                gender_instance = Gender.objects.get(code='M')
-            else:
-                gender_instance = Gender.objects.get(code='F')
-
             # Process the form data and create a new user
             user = form.save(commit=False)
-            user.gender = gender_instance
             user.save()
 
             # Log in the user
@@ -184,9 +173,7 @@ def change_password(request):
 def access_control_view(request):
     if request.method == 'GET':
         if request.user.staff_status or request.user.is_superuser:
-            users = User.objects.all().order_by('-date_joined').values('id', 'email', 'date_joined', 'is_staff', 'staff_status', 'first_name', 'last_name', 'gender', 'job_title')
-            for user in users:
-                user['full_name'] = f"{user['last_name']}{user['first_name']}"
+            users = User.objects.all().order_by('-date_joined')
             return render(request, 'access_control.html', {'users': users})
         else:
             messages.error(request, '權限不足')

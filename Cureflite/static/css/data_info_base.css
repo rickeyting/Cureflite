@@ -37,7 +37,7 @@
 }
 
 .right-list {
-  height: calc(100vh - 160px);
+  height: calc(100vh - 130px);
   overflow-y: auto;
 }
 
@@ -67,7 +67,7 @@
     left: 5px;
     padding: 0;
     margin: 0;
-    box-shadow: 0px 0px 5px rgb(105,105,105,0.5);
+    border-right: 1px solid rgb(105,105,105,0.5);
 }
 
 .left-board .left-title, .left-board .left-content{
@@ -80,14 +80,21 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 18px;
+    font-size: 12px;
     padding: 0px 10px 0px 10px;
     margin: 0px 10px;
+    font-weight: bold;
 }
 
 .option-name a{
     display: flex;
     align-items: center;
+}
+
+.option-name input {
+    border: none;
+    border-bottom: 1px solid #C0C0C0;
+    width: 160px;
 }
 
 .left-title {
@@ -151,8 +158,6 @@ li .left-items{
     border: 1px solid #00FA9A;
 }
 
-
-
 .remove-content a:hover {
     background-color: #00FA9A;
 }
@@ -165,17 +170,29 @@ li .left-items{
     background-color: #FF6347;
 }
 
-.option-name button {
+.option-name button,.option-name .add-button {
     color: white;
     background-color: #32cd32;
     border: none;
+    border-radius: 50px;
+    width: 50px;
+    text-align: center;
+    text-justify: center;
+    margin-left: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.multi-button {
+    display: flex;
+    justify-content: center;
 }
 
 .first-board, .second-board, .third-board {
-    background-color: #f4f0ec;
-    box-shadow: 0px 0px 5px rgb(105,105,105,0.5);
-    padding: 10px 10px 0px 10px;
-    margin: 10px 10px;
+    background-color: transparent;
+    border-bottom: 1px solid rgb(105,105,105,0.5);
+    padding: 10px 10px 10px 10px;
+    margin: 10px 30px;
 }
 
 .option-name .bi-trash3 {
@@ -199,13 +216,27 @@ li .left-items{
 
 .second-board input, .third-board input, .second-board select{
     width: 100%;
-    background-color: transparent;
     border: none;
     border-top: 1px solid #C0C0C0;
+}
+
+.board select, board input {
     text-align: center;
+    background-color: transparent;
+    border: none;
 }
 
 .add-symptom-input, .add-bad_habit-input, .clinic-option {
     display: flex;
     justify-content: center;
 }
+
+.left-board input {
+    background-color: transparent;
+}
+
+
+
+
+
+

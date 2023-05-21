@@ -1,6 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.utils.translation import gettext_lazy as _
+import uuid
 
+
+GENDER_CHOICES = (
+    ('M', _('Male')),
+    ('F', _('Female')),
+)
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -18,21 +25,11 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class Gender(models.Model):
-    MALE = 'M'
-    FEMALE = 'F'
-    GENDER_CHOICES = [
-        (MALE, 'Male'),
-        (FEMALE, 'Female')
-    ]
-
-    code = models.CharField(max_length=1, choices=GENDER_CHOICES, unique=True)
-    name_en = models.CharField(max_length=10, verbose_name='English name')
-    name_zh = models.CharField(max_length=10, verbose_name='Chinese name')
-    is_male = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.name_zh
+def user_avatar_path(instance, filename):
+    # Generate a unique filename using a UUID
+    unique_filename = f'{uuid.uuid4().hex}.{filename.split(".")[-1]}'
+    # Return the complete file path
+    return f'avatars/{unique_filename}'
 
 
 class User(AbstractBaseUser):
@@ -40,13 +37,14 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     bio = models.TextField(max_length=500, blank=True)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    avatar = models.ImageField(upload_to=user_avatar_path, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_superuser = models.BooleanField(default=False)
     staff_status = models.BooleanField(default=False)
-    gender = models.ForeignKey(Gender, on_delete=models.PROTECT, null=True, blank=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
+    birth = models.DateField(null=True, blank=True)
     address = models.CharField(max_length=200, blank=True)
     phone_number = models.CharField(max_length=20, blank=True)
     job_title = models.CharField(max_length=50, blank=True)

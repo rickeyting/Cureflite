@@ -13,13 +13,8 @@
     outline: none;
 }
 
-
 .sign-up-item p {
     margin: 0;
-}
-
-.bi-file-person {
-    font-size: 64px;
 }
 
 .board {
@@ -80,4 +75,45 @@
 
 #ChangePasswordPopup .bi-lock {
     font-size: 96px;
+}
+
+.avatar-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 1px solid grey;
+  overflow: hidden;
+}
+
+.avatar-container img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: 100%;
+}
+
+.photo-screen {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+}
+
+.label-right-bottom {
+  position: absolute;
+  bottom: 0;
+  right: 25%;
+}
+
+.bi-person-bounding-box {
+    font-size: 24px;
+    border-radius: 10px;
+}
+
+.bi-person-bounding-box:hover {
+    background-color: grey;
+    border-radius: 2px;
 }

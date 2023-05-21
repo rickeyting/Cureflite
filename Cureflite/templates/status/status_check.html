@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block loadcss %}
+<link rel="stylesheet" href="{% static 'css/status/status_check.css' %}" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'css/data_info_base.css' %}" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="{% url 'get_result' %}">
+    {% csrf_token %}
+    <div class="row status">
+        <div class="col-md-6 user-info">
+            <div class="info-title">
+                <h5>病症查詢:</h5>
+                <div class="gradient-border">
+                </div>
+                <a>輸入您的症狀，為您查詢適合診斷的科別</a>
+
+            </div>
+            <div class="info-item">
+                <a>性別</a>
+                <select name="gender">
+                    {% if request.user.gender == 'M' %}
+                    <option value="M" selected>男</option>
+                    <option value="F">女</option>
+                    {% else %}
+                    <option value="F" selected>女</option>
+                    <option value="M">男</option>
+                    {% endif %}
+                </select>
+            </div>
+            <div class="info-item">
+                <a>年紀</a>
+                <input type="number" value="{% if request.user.birth %}{{ request.user.birth|calculate_age }}{% else %}0{% endif %}" name="age" required>
+            </div>
+            <div class="info-item"></div>
+        </div>
+        <div class="col-md-6 body-parts">
+            <div class="human-body">
+                <div class="big-circle"></div>
+                <svg data-position="body-shadow" class="body-shadow" width="144" height="350" viewBox="0 0 144 350"><path d="
+                M71 0 L43 8 L13 29 L0 66 L9 112 L27 150
+                 L69 161 L70 167 L57 177
+                 L57 177 L52 182 L40 253
+                 L40 253 L38 271 L42 278 L44 278 L47 271
+                 L48 271 L58 331
+                 L58 331 L46 338 L46 344 L52 346 L63 346 L74 343 L76 337
+                 L76 337 L82 273 L109 333
+                 L109 333 L101 337 L98 342 L102 346 L127 346 L127 343
+                 L127 343 L121 266
+                 L121 266 L124 279 L137 272 L135 248
+                 L135 248 L132 214 L127 184 L120 171 L107 163
+                 L107 163 L95 161 L94 153
+                 L135 127 L141 107 L144 65 L133 34 L113 11z"/></svg>
+
+                <svg data-position="head" class="head" id="head" width="144" height="163" viewBox="0 0 144 163"><path d="M71 0 L43 8 L13 29 L0 66 L9 112 L27 150 L78 163 L135 127 L141 107 L144 65 L133 34 L113 11z"/></svg>
+                <svg data-position="arms" class="arms" width="96" height="89" viewBox="0 0 96 89"><path d="M68 0 L64 7 L63 22 L79 86 L96 85 L93 51 L88 21 L81 8z M17 13 L12 18 L0 89 L17 89z"/></svg>
+                <svg data-position="hands" class="hands" width="100" height="30" viewBox="0 0 100 30"><path d="M81 1 L77 6 L75 13 L83 19 L86 30 L100 24 L98 0z M2 4 L0 22 L5 32 L19 4z"/></svg>
+                <svg data-position="shoulder" class="shoulder" width="55" height="25" viewBox="0 0 55 25"><path d="M38 0 L12 9 L13 15 L0 25 L47 19 L51 12 L39 8z"/></svg>
+                <svg data-position="chest" class="chest" width="64" height="35" viewBox="0 0 64 35"><path d="M51 0 L4 6 L0 35 L55 35 L50 15z"/></svg>
+                <svg data-position="abdomen" class="abdomen" width="74" height="57" viewBox="0 0 74 57"><path d="M8 0 L0 57 L33 45 L74 44 L63 0z"/></svg>
+                <svg data-position="legs" class="legs" width="84" height="83" viewBox="0 0 84 83"><path d="M0 2 L13 71 L31 77 L37 13 L64 73 L84 83 L76 6 L68 0 L37 13z"/></svg>
+                <svg data-position="pelvis" class="pelvis" width="74" height="24" viewBox="0 0 74 24"><path d="M0 13 L37 24 L68 11 L70 5 L74 0 L33 1z"/></svg>
+                <svg data-position="feet" class="feet" width="83" height="15" viewBox="0 0 83 15"><path d="M12 0 L0 7 L0 13 L6 15 L17 15 L28 12 L30 6 L22 3z M63 2 L55 6 L52 11 L56 15 L81 15 L83 12 L72 5z"/></svg>
+            <div class="side-items">
+                <div class="side-item" data-position="eyes">
+                    <a>眼</a>
+                </div>
+                <div class="side-item" data-position="nose">
+                    <a>鼻</a>
+                </div>
+                <div class="side-item" data-position="mouth">
+                    <a>嘴</a>
+                </div>
+                <div class="side-item" data-position="skin">
+                    <a>皮膚</a>
+                </div>
+                <div class="side-item" data-position="habits">
+                    <a>其他</a>
+                </div>
+            </div>
+            </div>
+
+        </div>
+        <div class="col-12 bottom-items">
+            <div class="first-board">
+                <div class="remove-title">
+                    <a>病症: </a>
+                    <input type="text" id="symptom-input" placeholder="其他病症">
+                </div>
+                <div class="symptoms remove-content" id="symptoms-group-input">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-12 bottom-items">
+            <div class="first-board">
+                <div class="remove-title">
+                    <a>其他: </a>
+                    <input type="text" id="bad_habit-input" placeholder="其他行為">
+                </div>
+                <div class="remove-content" id="habits-group-input">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-12 submit-button">
+            <button type="submit">確認</button>
+        </div>
+    </div>
+</form>
+
+{% for body_group in body_groups %}
+<div class="popup-overlay" body-group-name="{{body_group.english_name}}">
+  <div class="popup">
+    <div class="popup-title">
+        <a>{{ body_group.chinese_name }}</a>
+        <div class="close-icon">
+            <i class="bi bi-x"></i>
+        </div>
+    </div>
+    <div class="popup-content">
+      <ul>
+      {% for symptom_group in body_group.symptom_groups.all %}
+        <li>
+          <input type="checkbox" name="symptom_groups" value="{{ symptom_group.chinese_name }}">
+          <label>{{ symptom_group.chinese_name }}</label>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<div class="popup-overlay" body-group-name="habits">
+  <div class="popup">
+    <div class="popup-title">
+        <a>生活&行為</a>
+        <div class="close-icon">
+            <i class="bi bi-x"></i>
+        </div>
+    </div>
+    <div class="popup-content">
+      <ul>
+      {% for bad_habit_group in bad_habit_groups %}
+        <li>
+          <input type="checkbox" name="bad_habit_groups" value="{{ bad_habit_group.chinese_name }}">
+          <label>{{ bad_habit_group.chinese_name }}</label>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="{% static 'js/status/status_check.js' %}" crossorigin="anonymous"></script>
+{% endblock %}

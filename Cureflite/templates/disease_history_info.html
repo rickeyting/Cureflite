@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block loadcss %}
+<link rel="stylesheet" href="{% static 'css/disease_history_info.css' %}" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+<div class="row board-title">
+    <a href="/apps">Apps</a>
+    <a class="px-3">/</a>
+    <a href="/disease/disease-overview/">Overview</a>
+    <a class="px-3">/</a>
+    <a>歷史紀錄</a>
+</div>
+<div class="mx-5 my-2">
+  <div class="row text-center">
+    <!-- right column content here -->
+    <div class="col right-col">
+      <div class="object">
+        <div class="object-top">
+          <div class="object-title">
+            <a>更新紀錄:</a>
+          </div>
+        </div>
+        <div class="object-content">
+            <ul>
+              {% for history in history_content %}
+              <li>
+                <div class="history-between">
+                  <div class="names">
+                    {{ history.0.title }}:
+                    <a {% if history.0.chinese_name.remove.0 %} style="text-decoration: line-through;" {% elif history.0.chinese_name.add.0 %} style="color: #ff4500;" {% endif %}>{{ history.0.chinese_name.all_item.0 }}</a>
+                  </div>
+                </div>
+                <div class="history-content">
+                  {% if history.0.symptoms %}
+                  <div class="history-start">
+                    <a>病症:</a>
+                    {% for symptom in history.0.symptoms.all_item %}
+                    <a {% if symptom in history.0.symptoms.remove %} style="text-decoration: line-through;" {% elif symptom in history.0.symptoms.add %} style="color: #ff4500;" {% endif %}>
+                      {{ symptom }},
+                    </a>
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+                  {% if history.0.bad_habits %}
+                  <div class="history-start">
+                    <a>行為:</a>
+                    {% for habit in history.0.bad_habits.all_item %}
+                    <a class="" {% if habit in history.0.bad_habits.remove %} style="text-decoration: line-through;" {% elif habit in history.0.bad_habits.add %} style="color: #ff4500;" {% endif %}>
+                      {{ habit }},
+                    </a>
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+                  {% if history.0.clinic %}
+                  <div class="history-start">
+                    <a>科別:</a>
+                    {% for clinic in history.0.clinic.all_item %}
+                    <a {% if clinic in history.0.clinic.remove %} style="text-decoration: line-through;" {% elif clinic in history.0.clinic.add %} style="color: #ff4500;" {% endif %}>
+                      {{ clinic }},
+                    </a>
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+                  {% if history.0.male_age_min %}
+                  <div class="history-start" {% if history.0.male_age_min.remove %} style="text-decoration: line-through;" {% endif %}>
+                    <a>男性年紀:</a>
+                    <a {% if history.0.male_age_min.add.0 %} style="color: #ff4500;" {% endif %}>
+                      {{ history.0.male_age_min.all_item.0 }}-
+                    </a>
+                    <a {% if history.0.male_age_max.add.0 %} style="color: #ff4500;" {% endif %}>
+                      {{ history.0.male_age_max.all_item.0 }}
+                    </a>
+                    <a class="ml-2">女性年紀:</a>
+                    <a {% if history.0.female_age_min.add.0 %} style="color: #ff4500;" {% endif %}>
+                      {{ history.0.female_age_min.all_item.0 }}-
+                    </a>
+                    <a {% if history.0.female_age_max.add.0 %} style="color: #ff4500;" {% endif %}>
+                      {{ history.0.female_age_max.all_item.0 }}
+                    </a>
+                    <a class=" ml-2" {% if history.0.family_history.add.0 %} style="color: #ff4500;" {% endif %}>
+                        家族史:
+                    </a>
+                    <input type="checkbox" {% if history.0.family_history.all_item.0 == 'True' %} checked {% endif %} disabled>
+                  </div>
+                  {% endif %}
+                  {% if history.0.symptom_groups %}
+                  <div class="history-start">
+                    <a>病症:</a>
+                    {% for symptom_group in history.0.symptom_groups.all_item %}
+                    <a {% if symptom_group in history.0.symptom_groups.remove %} style="text-decoration: line-through;" {% elif symptom_group in history.0.symptom_groups.add %} style="color: #ff4500;" {% endif %}>
+                      {{ symptom_group }},
+                    </a>
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+                  <div class="history-between">
+                    <div class="avatar-container" title="{{history.1.user.get_full_name}}">
+                        {% if history.1.user.avatar %}
+                        <img id="photo-preview" src="{{ MEDIA_URL }}{{history.1.user.avatar.url}}">
+                        {% else %}
+                        <div class="last_name">
+                            <a>{{history.1.user.last_name}}</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="dates">
+                      {{ history.0.timestamp|date:"m/d/Y h:m" }}
+                    </div>
+                  </div>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

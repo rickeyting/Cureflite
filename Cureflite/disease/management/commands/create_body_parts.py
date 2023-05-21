@@ -7,7 +7,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         body_parts = [
-            {'chinese_name': '腦部', 'english_name': 'brain'},
+            {'chinese_name': '頭部', 'english_name': 'head'},
             {'chinese_name': '眼睛', 'english_name': 'eyes'},
             {'chinese_name': '鼻子', 'english_name': 'nose'},
             {'chinese_name': '嘴巴', 'english_name': 'mouth'},
